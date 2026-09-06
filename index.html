@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Lumen is the calm operating system for modern teams." />
+  <title>Lumen — Move work forward</title>
+  <style>
+    :root {
+      --ink: #f6f5f2;
+      --muted: #9d9ca4;
+      --dim: #6d6c75;
+      --line: rgba(255,255,255,.1);
+      --panel: rgba(255,255,255,.055);
+      --bg: #101011;
+      --green: #b9f46e;
+      --green-dark: #20341a;
+      --purple: #a58cff;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font: 15px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: -.01em;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .shell { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+    .nav {
+      height: 82px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; letter-spacing: -.04em; font-size: 19px; }
+    .mark { width: 26px; height: 26px; border-radius: 8px; background: var(--green); display: grid; place-items: center; transform: rotate(-12deg); }
+    .mark::after { content: ""; width: 9px; height: 9px; border: 2px solid #10200b; border-radius: 50%; }
+    .nav-links { display: flex; align-items: center; gap: 31px; color: var(--muted); font-size: 13px; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-actions { display: flex; align-items: center; gap: 15px; font-size: 13px; }
+    .login { color: var(--muted); }
+    .login:hover { color: var(--ink); }
+    .button { border: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; padding: 12px 18px; font-weight: 700; font-size: 13px; transition: transform .2s ease, background .2s ease, color .2s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { background: var(--green); color: #15210f; }
+    .button.primary:hover { background: #ccff8e; }
+    .button.ghost { color: var(--ink); border: 1px solid var(--line); background: transparent; }
+    .button.ghost:hover { border-color: rgba(255,255,255,.28); background: var(--panel); }
+    .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; padding: 96px 0 86px; align-items: center; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow span { width: 28px; height: 1px; background: var(--green); }
+    h1 { font-size: clamp(51px, 6.3vw, 85px); line-height: .96; letter-spacing: -.075em; margin: 23px 0 26px; max-width: 650px; }
+    .hero-copy { color: var(--muted); font-size: 18px; line-height: 1.55; max-width: 500px; }
+    .hero-buttons { display: flex; gap: 12px; margin-top: 34px; }
+    .micro { color: var(--dim); font-size: 12px; margin-top: 17px; }
+    .micro::before { content: "✓"; color: var(--green); margin-right: 8px; }
+    .visual-wrap { position: relative; }
+    .orb { position: absolute; width: 270px; height: 270px; background: var(--purple); filter: blur(85px); opacity: .16; border-radius: 50%; right: 5%; top: -18%; }
+    .dashboard { position: relative; border: 1px solid rgba(255,255,255,.17); border-radius: 18px; background: #171718; box-shadow: 0 35px 100px rgba(0,0,0,.45); transform: rotate(2.5deg); overflow: hidden; }
+    .dash-top { height: 40px; display: flex; align-items: center; gap: 6px; padding: 0 15px; border-bottom: 1px solid var(--line); }
+    .dot { width: 6px; height: 6px; background: #45454a; border-radius: 50%; }
+    .dash-body { display: grid; grid-template-columns: 126px 1fr; min-height: 350px; }
+    .sidebar { border-right: 1px solid var(--line); padding: 20px 13px; }
+    .side-label { color: #55545c; font-size: 8px; text-transform: uppercase; letter-spacing: .16em; margin: 10px 7px; }
+    .side-item { color: #7b7a82; font-size: 10px; border-radius: 7px; padding: 8px 7px; margin: 4px 0; }
+    .side-item.active { color: var(--ink); background: rgba(185,244,110,.13); }
+    .side-icon { display: inline-block; width: 9px; height: 9px; border: 1px solid currentColor; border-radius: 3px; margin-right: 7px; vertical-align: -1px; }
+    .dash-main { padding: 26px 24px; }
+    .dash-heading { display: flex; justify-content: space-between; align-items: start; }
+    .dash-heading h3 { font-size: 17px; letter-spacing: -.04em; margin: 0; }
+    .dash-heading p { color: #77767d; font-size: 9px; margin: 4px 0; }
+    .avatar { width: 23px; height: 23px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), #f0b1a7); border: 2px solid #171718; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-top: 23px; }
+    .stat { border: 1px solid var(--line); border-radius: 9px; padding: 12px; }
+    .stat small { color: #77767d; font-size: 8px; display: block; }
+    .stat strong { display: block; font-size: 17px; margin-top: 3px; letter-spacing: -.05em; }
+    .stat em { color: var(--green); font-size: 8px; font-style: normal; }
+    .chart { margin-top: 18px; height: 120px; border: 1px solid var(--line); border-radius: 9px; padding: 13px; position: relative; overflow: hidden; }
+    .chart-label { color: #77767d; font-size: 8px; }
+    .chart svg { position: absolute; left: 13px; right: 13px; bottom: 10px; width: calc(100% - 26px); height: 75px; }
+    .activity { margin-top: 15px; display: grid; gap: 8px; }
+    .activity-row { display: flex; align-items: center; gap: 9px; font-size: 9px; color: #8a8990; }
+    .activity-row .tiny { width: 18px; height: 18px; background: #2a2a2c; border-radius: 5px; }
+    .activity-row b { color: #c9c8cc; font-weight: 500; }
+    .logos { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 23px 0; display: flex; align-items: center; justify-content: space-between; color: #626168; font-size: 13px; letter-spacing: -.03em; }
+    .logos-label { color: #56555c; font-size: 10px; text-transform: uppercase; letter-spacing: .13em; }
+    .logo-word { font-weight: 750; }
+    .section { padding: 112px 0; }
+    .section-header { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 45px; }
+    h2 { font-size: clamp(38px, 4.6vw, 61px); line-height: 1; letter-spacing: -.07em; margin: 15px 0 0; max-width: 650px; }
+    .section-intro { max-width: 315px; color: var(--muted); }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .feature { min-height: 245px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color .2s ease, transform .2s ease; }
+    .feature:hover { border-color: rgba(185,244,110,.35); transform: translateY(-4px); }
+    .feature:nth-child(2) { background: linear-gradient(145deg, rgba(165,140,255,.13), rgba(255,255,255,.045)); }
+    .feature:nth-child(3) { background: linear-gradient(145deg, rgba(185,244,110,.12), rgba(255,255,255,.045)); }
+    .feature-icon { width: 35px; height: 35px; border-radius: 10px; background: rgba(255,255,255,.08); display: grid; place-items: center; color: var(--green); font-size: 18px; }
+    .feature h3 { font-size: 19px; letter-spacing: -.05em; margin: 25px 0 7px; }
+    .feature p { color: var(--muted); margin: 0; font-size: 14px; }
+    .story { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: center; }
+    .quote { font-size: clamp(26px, 3vw, 42px); line-height: 1.12; letter-spacing: -.06em; margin: 0; }
+    .quote-mark { color: var(--green); font-size: 55px; line-height: .6; display: block; margin-bottom: 25px; }
+    .person { display: flex; align-items: center; gap: 11px; margin-top: 28px; color: var(--muted); font-size: 12px; }
+    .person-avatar { width: 33px; height: 33px; border-radius: 50%; background: linear-gradient(135deg, #f8c4a8, #754c8f); }
+    .person b { display: block; color: var(--ink); font-size: 13px; }
+    .workflow { border: 1px solid var(--line); border-radius: 16px; padding: 27px; background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); }
+    .workflow-top { display: flex; justify-content: space-between; color: #7d7c83; font-size: 11px; margin-bottom: 22px; }
+    .workflow-top strong { color: var(--ink); font-size: 14px; }
+    .flow-list { display: grid; gap: 10px; }
+    .flow { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 12px; border-radius: 10px; padding: 13px; background: rgba(0,0,0,.19); }
+    .flow-num { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 7px; background: rgba(185,244,110,.13); color: var(--green); font-size: 11px; }
+    .flow b { display: block; font-size: 12px; }
+    .flow small { color: #77767d; font-size: 10px; }
+    .pill { border-radius: 99px; padding: 4px 8px; color: var(--green); background: rgba(185,244,110,.1); font-size: 9px; }
+    .cta { border: 1px solid rgba(185,244,110,.25); background: linear-gradient(120deg, rgba(185,244,110,.16), rgba(165,140,255,.12)); border-radius: 18px; text-align: center; padding: 79px 24px; }
+    .cta h2 { margin: 15px auto 20px; max-width: 650px; }
+    .cta p { color: var(--muted); max-width: 430px; margin: 0 auto 28px; }
+    footer { border-top: 1px solid var(--line); padding: 25px 0 35px; display: flex; justify-content: space-between; color: var(--dim); font-size: 12px; }
+    footer .brand { color: var(--ink); font-size: 15px; }
+    .toast { position: fixed; left: 50%; bottom: 25px; transform: translate(-50%, 130px); border: 1px solid rgba(185,244,110,.35); background: #1b2717; color: var(--green); padding: 12px 18px; border-radius: 999px; font-size: 13px; transition: transform .3s ease; z-index: 3; }
+    .toast.show { transform: translate(-50%, 0); }
+    @media (max-width: 850px) {
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 45px; padding-top: 65px; }
+      .dashboard { transform: rotate(0); }
+      .feature-grid { grid-template-columns: 1fr; }
+      .story { grid-template-columns: 1fr; gap: 42px; }
+      .section { padding: 75px 0; }
+    }
+    @media (max-width: 520px) {
+      .shell { width: min(calc(100% - 32px), var(--max)); }
+      .nav { height: 68px; }
+      .nav-actions .login { display: none; }
+      h1 { font-size: 52px; }
+      .hero-buttons { flex-direction: column; align-items: stretch; }
+      .logos { flex-wrap: wrap; gap: 15px 22px; }
+      .logos-label { width: 100%; }
+      .dash-body { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .dash-main { padding: 20px 16px; }
+      .section-header { display: block; }
+      .section-intro { margin-top: 20px; }
+      footer { display: block; }
+      footer span { display: block; margin-top: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell nav">
+    <a class="brand" href="#top" aria-label="Lumen home"><span class="mark"></span>Lumen</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#product">Product</a><a href="#workflow">How it works</a><a href="#stories">Stories</a><a href="#pricing">Pricing</a>
+    </nav>
+    <div class="nav-actions"><a class="login" href="#pricing">Sign in</a><a class="button primary" href="#pricing">Start free <span>↗</span></a></div>
+  </header>
+
+  <main id="top">
+    <section class="shell hero">
+      <div>
+        <div class="eyebrow"><span></span> The calm operating system for teams</div>
+        <h1>Make space for the work that matters.</h1>
+        <p class="hero-copy">Lumen brings your plans, people, and progress into one quietly powerful workspace—so your team can move with clarity.</p>
+        <div class="hero-buttons"><a class="button primary" href="#pricing">Start building for free <span>↗</span></a><a class="button ghost" href="#product">See how it works <span>↓</span></a></div>
+        <p class="micro">No credit card required · Set up in 2 minutes</p>
+      </div>
+      <div class="visual-wrap" aria-label="Lumen product preview">
+        <div class="orb"></div>
+        <div class="dashboard">
+          <div class="dash-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="dash-body">
+            <aside class="sidebar"><div class="side-label">Workspace</div><div class="side-item active"><span class="side-icon"></span>Overview</div><div class="side-item"><span class="side-icon"></span>Projects</div><div class="side-item"><span class="side-icon"></span>Insights</div><div class="side-label">Manage</div><div class="side-item"><span class="side-icon"></span>People</div><div class="side-item"><span class="side-icon"></span>Settings</div></aside>
+            <div class="dash-main"><div class="dash-heading"><div><h3>Good morning, Mia</h3><p>Here’s what’s moving today.</p></div><div class="avatar"></div></div><div class="stats"><div class="stat"><small>Active projects</small><strong>24</strong><em>+12% this month</em></div><div class="stat"><small>Tasks shipped</small><strong>186</strong><em>+24% this month</em></div><div class="stat"><small>Team pulse</small><strong>94%</strong><em>↑ 8% this month</em></div></div><div class="chart"><span class="chart-label">Momentum · Last 30 days</span><svg viewBox="0 0 440 75" preserveAspectRatio="none" aria-hidden="true"><path d="M0,65 C30,61 35,47 65,52 S101,38 125,45 S160,55 185,32 S218,40 242,25 S270,31 298,18 S332,38 356,22 S390,20 440,4" fill="none" stroke="#b9f46e" stroke-width="2"/><path d="M0,65 C30,61 35,47 65,52 S101,38 125,45 S160,55 185,32 S218,40 242,25 S270,31 298,18 S332,38 356,22 S390,20 440,4 V75 H0Z" fill="url(#g)" opacity=".13"/><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#b9f46e"/><stop offset="1" stop-color="#b9f46e" stop-opacity="0"/></linearGradient></defs></svg></div><div class="activity"><div class="activity-row"><span class="tiny"></span><span><b>Launch campaign</b> · moved to review</span></div><div class="activity-row"><span class="tiny"></span><span><b>Design system</b> · 6 tasks completed</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="shell logos"><span class="logos-label">Loved by teams at</span><span class="logo-word">northstar</span><span class="logo-word">RAYO</span><span class="logo-word">arcform</span><span class="logo-word">tandem</span><span class="logo-word">PULSE</span></div>
+
+    <section class="shell section" id="product">
+      <div class="section-header"><div><div class="eyebrow"><span></span> One clear view</div><h2>Everything your team needs. Nothing it doesn’t.</h2></div><p class="section-intro">Lumen gives every project a home, every person a voice, and every decision a little more momentum.</p></div>
+      <div class="feature-grid"><article class="feature"><div class="feature-icon">◌</div><div><h3>See the whole picture</h3><p>Turn scattered updates into a living view of your team’s most important work.</p></div></article><article class="feature"><div class="feature-icon">✦</div><div><h3>Find your next move</h3><p>Surface what needs attention before it becomes a fire drill—with insights that stay human.</p></div></article><article class="feature"><div class="feature-icon">↗</div><div><h3>Move together</h3><p>Keep the right people in the loop and turn decisions into forward motion.</p></div></article></div>
+    </section>
+
+    <section class="shell section" id="workflow"><div class="story"><div id="stories"><span class="quote-mark">“</span><p class="quote">Lumen helped us trade status meetings for actual progress.</p><div class="person"><span class="person-avatar"></span><span><b>Amara Chen</b>Head of Operations, Northstar</span></div></div><div class="workflow"><div class="workflow-top"><strong>A better way to work</strong><span>3 steps</span></div><div class="flow-list"><div class="flow"><span class="flow-num">01</span><span><b>Bring your work together</b><small>Projects, notes, and goals in one place</small></span><span class="pill">Live</span></div><div class="flow"><span class="flow-num">02</span><span><b>Make the signal visible</b><small>Know what’s moving—and what isn’t</small></span><span class="pill">Clear</span></div><div class="flow"><span class="flow-num">03</span><span><b>Make progress feel natural</b><small>Less chasing. More shipping.</small></span><span class="pill">Flow</span></div></div></div></div></section>
+
+    <section class="shell section" id="pricing"><div class="cta"><div class="eyebrow" style="justify-content:center"><span></span> Less noise. More momentum. <span></span></div><h2>Give your best work room to happen.</h2><p>Start with the essentials. Grow into the workflow that fits your team.</p><button class="button primary" id="demo-button">Start your free workspace <span>↗</span></button><p class="micro" style="margin-bottom:0">Free forever for up to 5 teammates</p></div></section>
+  </main>
+
+  <footer class="shell"><a class="brand" href="#top"><span class="mark"></span>Lumen</a><span>© 2026 Lumen Systems · Built for thoughtful teams</span></footer>
+  <div class="toast" id="toast" role="status">Your free workspace is ready when you are ✦</div>
+  <script>
+    const button = document.getElementById('demo-button');
+    const toast = document.getElementById('toast');
+    button.addEventListener('click', () => { toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3200); });
+  </script>
+</body>
+</html>
